@@ -51,11 +51,8 @@ abstract class Model
     /**
      * Inserts new record in database
      */
-    public function insert() : bool
+    protected function insert() : bool
     {
-        if (!$this->isNew()) {
-            return false;
-        }
         $fields = get_object_vars($this);
         $cols = [];
         $binds = [];
@@ -75,9 +72,48 @@ abstract class Model
             implode(', ', $binds) .')';
 
         $db = new Db();
-        $db->execute($sql, $data);
-        $this->id = $db->lastInsertId();
-        return true;
+
+        if (true === $db->execute($sql, $data)) {
+            $this->id = $db->lastInsertId();
+            return true;
+        }
+        return false;
+
+    }
+
+    /**
+     * @return bool
+     */
+    protected function update() : bool
+    {
+
+        $fields = get_object_vars($this);
+        $string = [];
+
+        foreach ($fields as $name => $value) {
+            if (in_array($name, ['id','created'])) {
+                continue;
+            }
+            $string[] = $name . '=\'' . ':' . $name . '\'';
+        }
+        var_dump($string);
+        $sql = 'UPDATE ' . static::$table . implode(', ',$string) . ' SET ' . ' WHERE id = :id ';
+
+        $db = new Db();
+        return $db->execute($sql, [':id' => $this->id]);
+
+    }
+
+    /**
+     * @return bool
+     */
+    public function save() : bool
+    {
+        if (isset($this->id)) {
+            return $this->update();
+        }
+        return $this->insert();
+
     }
 
 }
