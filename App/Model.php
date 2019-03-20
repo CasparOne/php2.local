@@ -116,4 +116,15 @@ abstract class Model
 
     }
 
+    /**
+     * @return bool
+     */
+    public function delete() : bool
+    {
+        $db = new Db();
+        $sql = 'DELETE FROM ' . static::$table . ' WHERE \'id\' = :id';
+
+        return $db->execute($sql, [':id' => $this->id]);
+    }
+
 }
