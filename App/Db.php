@@ -15,7 +15,12 @@ class Db
      */
     public function __construct()
     {
-        $this->dbh = new \PDO('mysql:host=localhost;dbname=test', 'root', '');
+        $config = Config::getInstance();
+
+        $dbConfig = $config->data['db'];
+        $dsn = $dsn = $dbConfig['engine'] . ':host=' .$dbConfig['host'] .';dbname=' . $dbConfig['dbname'];
+
+        $this->dbh = new \PDO($dsn, $dbConfig['username'], $dbConfig['password']);
     }
 
     /**
