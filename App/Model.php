@@ -32,7 +32,7 @@ abstract class Model
      * @param int $id
      * @return bool
      */
-    public static function findById(int $id)
+    public static function findById($id)
     {
         $db = new Db();
         $sql = 'SELECT * FROM ' . static::$table . ' WHERE id=:id';
@@ -96,7 +96,6 @@ abstract class Model
             }
             $string[] = $name . '=\'' . ':' . $name . '\'';
         }
-        var_dump($string);
         $sql = 'UPDATE ' . static::$table . implode(', ',$string) . ' SET ' . ' WHERE id = :id ';
 
         $db = new Db();
@@ -128,3 +127,4 @@ abstract class Model
     }
 
 }
+

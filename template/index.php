@@ -8,12 +8,17 @@
     <title>Новости</title>
 </head>
 <body>
+<hr>
+<h1>Последние новости</h1>
+<hr>
+
 <?php if (!empty($articles)):
 foreach ($articles as $article):
-     ?>
+     ?><br>
 <article>
     <h3><a href="/article.php?id=<?php echo $article->id; ?>"><?php echo $article->title; ?></a></h3>
     <p><?php echo $article->text; ?></p>
+    <p><i><?php echo $article->author; ?></i></p>
 </article>
 <?php
 endforeach;
@@ -23,5 +28,6 @@ else: ?>
 <?php
 endif;
 ?>
+
 </body>
 </html>
