@@ -86,20 +86,26 @@ abstract class Model
      */
     protected function update() : bool
     {
+        if (!isset($this->id)) {
+            return false;
+        }
 
         $fields = get_object_vars($this);
-        $string = [];
+        $cols = [];
+        $data = [];
 
         foreach ($fields as $name => $value) {
-            if (in_array($name, ['id','created'])) {
+            if (in_array($name, ['id', 'created'])) {
                 continue;
             }
-            $string[] = $name . '=\'' . ':' . $name . '\'';
+            $data[':' . $name] = $value;
+            $data[':id'] = $this->id;
+            $cols[] = $name . '=:' . $name;
         }
-        $sql = 'UPDATE ' . static::$table . implode(', ',$string) . ' SET ' . ' WHERE id = :id ';
+        $sql = 'UPDATE ' . static::$table . ' SET ' . implode(', ', $cols) . ' WHERE id=:id';
 
         $db = new Db();
-        return $db->execute($sql, [':id' => $this->id]);
+        return $db->execute($sql, $data);
 
     }
 
@@ -121,7 +127,7 @@ abstract class Model
     public function delete() : bool
     {
         $db = new Db();
-        $sql = 'DELETE FROM ' . static::$table . ' WHERE \'id\' = :id';
+        $sql = 'DELETE FROM ' . static::$table . ' WHERE id = :id';
 
         return $db->execute($sql, [':id' => $this->id]);
     }

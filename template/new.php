@@ -12,7 +12,7 @@
 <h1>Админ панель</h1>
 <hr>
 <h2>Редактирование новости</h2>
-<form action="/admin/update.php" method="post">
+<form action="/admin/new.php" method="post">
     <input type="hidden" name="id" value="<?=$article->id;?>">
     <textarea name="title" cols="60" rows="3"><?=$article->title; ?></textarea> <br>
     <textarea name="text" cols="60" rows="20"><?=$article->text; ?></textarea> <br>

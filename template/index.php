@@ -8,7 +8,8 @@
     <title>Новости</title>
 </head>
 <body>
-<hr>
+<p><a href="/admin/">Админка</a></p>
+<div><hr>
 <h1>Последние новости</h1>
 <hr>
 
@@ -28,6 +29,6 @@ else: ?>
 <?php
 endif;
 ?>
-
+</div>
 </body>
 </html>
