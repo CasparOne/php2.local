@@ -39,7 +39,7 @@ class Article extends Model
      */
     public static function findLastRecord($count) : array
     {
-        $sql = 'SELECT * FROM ' . static::$table .  ' ORDER BY id DESC LIMIT ' . $count;
+        $sql = 'SELECT * FROM ' . static::$table .  ' ORDER BY created ASC LIMIT ' . $count;
         $db = new Db();
         return $db->query($sql, [],static::class);
     }

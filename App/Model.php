@@ -24,7 +24,7 @@ abstract class Model
     public static function findAll()
     {
         $db = new Db();
-        $sql = 'SELECT * FROM ' . static::$table;
+        $sql = 'SELECT * FROM ' . static::$table . ' ORDER BY created desc';
         return $db->query($sql, [], static::class);
     }
 
