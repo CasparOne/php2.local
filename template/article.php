@@ -8,8 +8,11 @@
     <title>Новость</title>
 </head>
 <body>
+
 <?php if (false != $article):?>
+<hr>
 <h1><?php echo $article->title; ?></h1>
+<hr><br>
 <p><?php echo $article->text;?></p>
 <?php else: ?>
     <h1>Ошибко!!</h1>
@@ -17,5 +20,6 @@
 <?php
 endif;
 ?>
+<br> <a href="index.php"> <<< Back</a>
 </body>
 </html>
