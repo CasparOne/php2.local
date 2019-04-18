@@ -16,11 +16,14 @@ class Db
     public function __construct()
     {
         $config = Config::getInstance();
-
         $dbConfig = $config->data['db'];
-        $dsn = $dsn = $dbConfig['engine'] . ':host=' .$dbConfig['host'] .';dbname=' . $dbConfig['dbname'];
+        if (!is_null($dbConfig)) {
+            $dsn = $dsn = $dbConfig['engine'] . ':host=' .$dbConfig['host'] .';dbname=' . $dbConfig['dbname'];
+            $this->dbh = new \PDO($dsn, $dbConfig['username'], $dbConfig['password']);
+        } else {
+            die('Failed to obtain right parameters'); // this is temporary solution
+        }
 
-        $this->dbh = new \PDO($dsn, $dbConfig['username'], $dbConfig['password']);
     }
 
     /**
