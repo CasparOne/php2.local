@@ -9,6 +9,7 @@
 </head>
 <body>
 <hr>
+<a href="../index.php">Главная</a>
 <h1>Админ панель</h1>
 <a href="create.php">Новая тема</a>
 <hr>
