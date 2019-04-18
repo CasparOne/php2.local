@@ -19,9 +19,15 @@ class Config
     /**
      * Config constructor. Singleton
      */
-    private function __construct()
+    protected function __construct()
     {
-        $this->data = include __DIR__ . '/../etc/config.php';
+        $configPath = __DIR__ . '/../etc/config.php';
+        if (is_readable($configPath)) {
+            $this->data = include $configPath;
+        } else {
+            die('Config file is wrong or corrupt');
+        }
+
     }
 
     /**
