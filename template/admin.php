@@ -10,6 +10,7 @@
 <body>
 <hr>
 <h1>Админ панель</h1>
+<a href="create.php">Новая тема</a>
 <hr>
 <br>
 <h2>Список новостей</h2>
@@ -21,7 +22,7 @@
             <p><?php echo $article->text; ?></p>
             <p><i><?php echo $article->author; ?></i></p>
             <p align="left"><a href="update.php?id=<?php echo $article->id; ?>">Редактировать</a>&nbsp&nbsp&nbsp&nbsp
-                <a href="create.php">Новая тема</a>&nbsp&nbsp&nbsp&nbsp<a href="delete.php?id=<?php echo $article->id; ?>">Удалить</a>
+                <a href="delete.php?id=<?php echo $article->id; ?>">Удалить</a>
         </article>
     <?php
     endforeach;
