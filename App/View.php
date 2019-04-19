@@ -7,7 +7,7 @@ namespace App;
  * Class View
  * @package App
  */
-abstract class View
+class View
 {
     /**
      * @var array
@@ -15,18 +15,28 @@ abstract class View
     protected $data = [];
 
     /**
-     * @param $name
-     * @param $value
+     * @param string $name
+     * @param Model $value
+     * @return $this
      */
-    public function assign($name, $value)
+    public function assign(string $name, array $value)
     {
+        $this->data[$name] = $value;
+        return $this;
     }
 
     /**
      * @param $template
+     * @return boolean
      */
-    public function display($template)
+    public function display($template) : bool
     {
+        extract($this->data);
+        if (is_readable($template)) {
+            include $template;
+            return true;
+        }
+        return false;
     }
 
 }
