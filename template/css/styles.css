@@ -1,0 +1,22 @@
+.header {
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+.main-header {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.news-text {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.news-text__main {
+    text-align: center;
+}
+
+.article-author {
+    font-style: italic;
+    font-size: small;
+    margin-bottom: 30px;
+}
