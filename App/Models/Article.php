@@ -15,7 +15,7 @@ class Article extends Model
     /**
      * @var string
      */
-    protected static $table = 'article';
+    protected static $table = 'articles';
     /**
      * @var $title
      */
