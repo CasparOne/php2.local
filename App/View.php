@@ -73,7 +73,7 @@ class View implements \Countable, \Iterator
      * @return void Any returned value is ignored.
      * @since 5.0.0
      */
-    public function next()
+    public function next() : void
     {
         next($this->data);
     }
@@ -111,4 +111,6 @@ class View implements \Countable, \Iterator
     {
         reset($this->data);
     }
+
 }
+
