@@ -16,18 +16,22 @@ class Article extends Model
      * @var string
      */
     protected static $table = 'articles';
+
     /**
      * @var $title
      */
     public $title;
+
     /**
      * @var $text
      */
     public $text;
+
     /**
-     * @var $author
+     * @var $author_id
      */
-    public $author;
+    protected $author_id;
+
     /**
      * @var $created
      */
@@ -44,5 +48,42 @@ class Article extends Model
         return $db->query($sql, [],static::class);
     }
 
+    /**
+     * @param $name
+     * @return bool
+     */
+    public function __get($name)
+    {
+        if ('author' === $name && !empty($this->author_id) ) {
+            $result = Author::findById($this->author_id);
+
+            return $result ?? false;
+        }
+        return false;
+    }
+
+    /**
+     * @param string $name
+     * @param $value
+     */
+    public function __set(string $name, $value) : void
+    {
+        if ('author' === $name && $value instanceof Author) {
+            $this->author_id = $value->id;
+        }
+    }
+
+    /**
+     * @param $name
+     * @return bool
+     */
+    public function __isset($name) : bool
+    {
+        if ('author' === $name) {
+            return isset($this->author_id);
+        }
+        return false;
+    }
 
 }
+
