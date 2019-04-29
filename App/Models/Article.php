@@ -18,6 +18,11 @@ class Article extends Model
     protected static $table = 'articles';
 
     /**
+     * @var $author_id
+     */
+    protected $author_id;
+
+    /**
      * @var $title
      */
     public $title;
@@ -26,11 +31,6 @@ class Article extends Model
      * @var $text
      */
     public $text;
-
-    /**
-     * @var $author_id
-     */
-    protected $author_id;
 
     /**
      * @var $created

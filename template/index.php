@@ -19,9 +19,7 @@ foreach ($articles as $article):
             <div class="col-3 col-md-6 col-lg-8">
                 <h3 class="article-header"><a href="/article.php?id=<?php echo $article->id; ?>"><?php echo $article->title; ?></a></h3>
                 <p class="article-text"><?php echo $article->text; ?></p>
-                <p class="article-author"><?php echo ucfirst($article->author->first_name[1]) .
-                                                    '. ' .
-                                                    $article->author->last_name; ?></p>
+                <p class="article-author__name"><?php echo $article->author->nick_name; ?></p>
             </div>
         </div>
     </section>

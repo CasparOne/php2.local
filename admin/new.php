@@ -9,6 +9,8 @@ if ( isset($_GET['id']) && !empty($_GET['id']) ) {
     exit();
 }
 
+//var_dump($_POST); die();
+
 if ( isset($_POST['title'], $_POST['text'], $_POST['author'] ) ) {
 
     $article = new Article();
@@ -19,4 +21,5 @@ if ( isset($_POST['title'], $_POST['text'], $_POST['author'] ) ) {
     $article->save();
     header('Location:/admin/');
     exit();
+
 }
