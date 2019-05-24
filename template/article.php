@@ -20,6 +20,6 @@ include __DIR__ . '/head.php';
 <?php
 endif;
 ?>
-<br> <a href="index.php"> <<< Back</a>
+<br> <a href="/"> <<< Back</a>
 </body>
 </html>

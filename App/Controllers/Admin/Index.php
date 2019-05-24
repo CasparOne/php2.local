@@ -5,15 +5,19 @@ namespace App\Controllers\Admin;
 
 
 use App\Models\Article;
-use App\View;
 
+/**
+ * Class Index
+ * @package App\Controllers\Admin
+ */
 class Index extends BaseAdminController
 {
-
-    public function action()
+    /**
+     * @return mixed|void
+     */
+    protected function action()
     {
-        $view = new View();
-        $view->articles = Article::findAll();
-        echo $view->render(__DIR__ . '/../../../template/admin.php');
+        $this->view->articles = Article::findAll();
+        echo $this->view->render(__DIR__ . '/../../../template/admin.php');
     }
 }

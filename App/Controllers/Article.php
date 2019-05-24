@@ -10,11 +10,10 @@ use App\View;
 class Article extends BaseController
 {
 
-    public function action()
+    protected function action()
     {
-        $view = new View();
-        $view->article = \App\Models\Article::findById($_GET['id']);
-        echo $view->render(__DIR__ . '/../../template/article.php');
+        $this->view->article = \App\Models\Article::findById($_GET['id']);
+        echo  $this->view->render(__DIR__ . '/../../template/article.php');
 
     }
 }

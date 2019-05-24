@@ -6,6 +6,48 @@ namespace App;
 
 abstract class BaseController
 {
-    abstract public function action();
+    /**
+     * @var View
+     */
+    protected $view;
+
+    public function __construct()
+    {
+        $this->view = new View();
+    }
+
+    /**
+     * @return mixed
+     */
+    abstract protected function action();
+
+    /**
+     * @return bool
+     */
+    protected function access() : bool
+    {
+        return true;
+    }
+
+    /**
+     * @return void|mixed
+     */
+    public function dispatch() : void
+    {
+        if ($this->access()) {
+            $this->action();
+        } else {
+            die('Доступ закрыт');
+        }
+    }
+
+    /**
+     * @param string $uri
+     */
+    protected static function redirect(string $uri) : void
+    {
+        header('Location:' . $uri);
+        return;
+    }
 
 }

@@ -11,10 +11,10 @@ use App\View;
 class Index extends BaseController
 {
 
-    public function action()
+    protected function action()
     {
-        $view = new View();
-        $view->articles = Article::findAll();
-        echo $view->render(__DIR__ . '/../../template/index.php');
+        $this->view = new View();
+        $this->view->articles = Article::findAll();
+        echo  $this->view->render(__DIR__ . '/../../template/index.php');
     }
 }
