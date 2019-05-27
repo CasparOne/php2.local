@@ -20,7 +20,7 @@ class Db
         if (is_null($dbConfig)) {
             die('Failed to obtain right parameters'); // this is temporary solution
         }
-        $dsn = $dbConfig['engine'] . ':host=' .$dbConfig['host'] .';dbname=' . $dbConfig['dbname'];
+        $dsn = $dbConfig['engine'] . ':host=' . $dbConfig['host'] . ';dbname=' . $dbConfig['dbname'];
         $this->dbh = new \PDO($dsn, $dbConfig['username'], $dbConfig['password']);
     }
 
@@ -37,7 +37,8 @@ class Db
 
         if (empty($class)) {
             return $sth->fetchAll(\PDO::FETCH_ASSOC);
-        } else {
+        }
+        else {
             return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
         }
     }
@@ -47,7 +48,7 @@ class Db
      * @param array $params
      * @return bool
      */
-    public function execute(string $sql, array $params = []) :bool
+    public function execute(string $sql, array $params = []): bool
     {
         $sth = $this->dbh->prepare($sql);
         return $sth->execute($params);

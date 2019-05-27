@@ -24,7 +24,8 @@ class Config
         $configPath = __DIR__ . '/../etc/config.php';
         if (is_readable($configPath)) {
             $this->data = include $configPath;
-        } else {
+        }
+        else {
             die('Config file is wrong or corrupt');
         }
 
@@ -33,7 +34,7 @@ class Config
     /**
      * @return Config
      */
-    public static function getInstance() : Config
+    public static function getInstance(): Config
     {
         if (is_null(self::$instance)) {
             self::$instance = new Config();

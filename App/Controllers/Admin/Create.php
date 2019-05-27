@@ -11,7 +11,7 @@ class Create extends BaseAdminController
     /**
      * @return bool
      */
-    protected function action() : bool
+    protected function action(): bool
     {
         if (!empty($_POST['title'])
             && !empty($_POST['text'])) {

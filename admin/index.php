@@ -9,12 +9,13 @@ $parts = explode('/', $uri);
  * @var $ctrl \App\BaseController
  */
 
-$name =  !empty($parts[1]) ? ucfirst($parts[1]) : 'Index';
+$name = !empty($parts[1]) ? ucfirst($parts[1]) : 'Index';
 $class = '\App\Controllers\Admin\\' . $name;
 
 if (!class_exists($class)) {
     \App\Controllers\Error404::getError();
-} else {
+}
+else {
     $ctrl = new $class;
     $ctrl->dispatch();
 }

@@ -43,7 +43,7 @@ abstract class Model
     /**
      * @return bool
      */
-    public function isNew() : bool
+    public function isNew(): bool
     {
         return null === $this->id;
     }
@@ -51,7 +51,7 @@ abstract class Model
     /**
      * Inserts new record in database
      */
-    protected function insert() : bool
+    protected function insert(): bool
     {
         $fields = get_object_vars($this);
         $cols = [];
@@ -59,7 +59,7 @@ abstract class Model
         $data = [];
 
         foreach ($fields as $name => $value) {
-            if (in_array($name, ['id','created']) ) {
+            if (in_array($name, ['id', 'created'])) {
                 continue;
             }
             $cols[] = $name;
@@ -67,9 +67,9 @@ abstract class Model
             $data[':' . $name] = $value;
         }
 
-        $sql = 'INSERT INTO ' . static::$table . ' ('.
-            implode(', ', $cols) .') VALUES (' .
-            implode(', ', $binds) .')';
+        $sql = 'INSERT INTO ' . static::$table . ' (' .
+            implode(', ', $cols) . ') VALUES (' .
+            implode(', ', $binds) . ')';
 
         $db = new Db();
 
@@ -84,7 +84,7 @@ abstract class Model
     /**
      * @return bool
      */
-    protected function update() : bool
+    protected function update(): bool
     {
         if (!isset($this->id)) {
             return false;
@@ -112,7 +112,7 @@ abstract class Model
     /**
      * @return bool
      */
-    public function save() : bool
+    public function save(): bool
     {
         if (isset($this->id)) {
             return $this->update();
@@ -124,7 +124,7 @@ abstract class Model
     /**
      * @return bool
      */
-    public function delete() : bool
+    public function delete(): bool
     {
         $db = new Db();
         $sql = 'DELETE FROM ' . static::$table . ' WHERE id = :id';

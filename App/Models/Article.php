@@ -41,11 +41,11 @@ class Article extends Model
      * @param $count
      * @return array
      */
-    public static function findLastRecord($count) : array
+    public static function findLastRecord($count): array
     {
-        $sql = 'SELECT * FROM ' . static::$table .  ' ORDER BY created ASC LIMIT ' . $count;
+        $sql = 'SELECT * FROM ' . static::$table . ' ORDER BY created ASC LIMIT ' . $count;
         $db = new Db();
-        return $db->query($sql, [],static::class);
+        return $db->query($sql, [], static::class);
     }
 
     /**
@@ -54,7 +54,7 @@ class Article extends Model
      */
     public function __get($name)
     {
-        if ('author' === $name && !empty($this->author_id) ) {
+        if ('author' === $name && !empty($this->author_id)) {
             $result = Author::findById($this->author_id);
 
             return $result ?? false;
@@ -66,7 +66,7 @@ class Article extends Model
      * @param string $name
      * @param $value
      */
-    public function __set(string $name, $value) : void
+    public function __set(string $name, $value): void
     {
         if ('author' === $name && $value instanceof Author) {
             $this->author_id = $value->id;
@@ -77,7 +77,7 @@ class Article extends Model
      * @param $name
      * @return bool
      */
-    public function __isset($name) : bool
+    public function __isset($name): bool
     {
         if ('author' === $name) {
             return isset($this->author_id);

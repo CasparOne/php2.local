@@ -5,15 +5,21 @@ namespace App\Controllers;
 
 
 use App\BaseController;
-use App\View;
 
 class Article extends BaseController
 {
 
     protected function action()
     {
-        $this->view->article = \App\Models\Article::findById($_GET['id']);
-        echo  $this->view->render(__DIR__ . '/../../template/article.php');
+        $id = $this->router->getParameter()['id'];
+        $this->view->article = \App\Models\Article::findById($id);
+        echo $this->view->render(__DIR__ . '/../../template/article.php');
 
+    }
+
+    public function setParam($param)
+    {
+        $this->router = $param;
+        return $this;
     }
 }
