@@ -28,10 +28,19 @@ class Router
         $this->curUri = $_SERVER['REQUEST_URI'];
     }
 
+    public function run()
+    {
+        $controllerClass = (new self());
+        $ctrl = $controllerClass->getClassName();
+        (new $ctrl)
+            ->setParam($this)
+            ->dispatch();
+    }
+
     public function getClassName()
     {
         if (!class_exists($this->findControllerName())) {
-            return false; die('Class not found');
+            die('Class not found');
         }
         return $this->findControllerName();
     }
@@ -45,7 +54,6 @@ class Router
         $uri = $this->makePureUri($this->curUri);
         $regExp = $this->getRegExpressions();
         foreach ($regExp as $className => $rexExpession) {
-
             if (1 === preg_match($rexExpession, $uri)) {
                 return $className;
             }
@@ -56,11 +64,11 @@ class Router
     /**
      * @return null
      */
-    protected function getParameter()
+    public function getParameter()
     {
         $config = $this->routes;
         $flipRoutes = array_flip($config);
-        $controller = $this->getController();
+        $controller = $this->getClassName();
         $route = $flipRoutes[$controller];
 
         preg_match_all('#(?:{.+})#U', $route, $parameterNames);
@@ -80,7 +88,7 @@ class Router
         foreach ($parameterNames as $parameterName) {
             $regExp = str_replace($parameterName, sprintf('(?P<%s>.+)', $parameterName), $regExp);
         }
-        $regExp = preg_replace(['#^\/#', '#{#', '#}#',],['/','','',], $regExp);
+        $regExp = preg_replace(['#^\/#', '#{#', '#}#',], ['/', '', '',], $regExp);
 
         preg_match_all($regExp, $this->curUri, $parameterValues);
 
@@ -103,8 +111,8 @@ class Router
     {
         $regExpr = [];
         foreach ($this->routes as $pattern => $className) {
-            $result = str_replace('/', '\/',    $pattern);
-            $result = preg_replace('#{.+}#','.+', $result);
+            $result = str_replace('/', '\/', $pattern);
+            $result = preg_replace('#{.+}#', '.+', $result);
             if (isset($result)) {
                 $regExpr[$className] = '#^' . $result . '$#';
             }
@@ -119,12 +127,13 @@ class Router
     protected function makePureUri($url)
     {
         if ($url != '') {
-            $parts = explode('&', $url,2);
+            $parts = explode('&', $url, 2);
         }
 
         if (strpos($parts[0], '=') === false) {
             $url = $parts[0];
-        } else {
+        }
+        else {
             $url = '';
         }
         return $url;

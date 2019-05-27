@@ -15,6 +15,6 @@ class Index extends BaseController
     {
         $this->view = new View();
         $this->view->articles = Article::findAll();
-        echo  $this->view->render(__DIR__ . '/../../template/index.php');
+        echo $this->view->render(__DIR__ . '/../../template/index.php');
     }
 }

@@ -10,6 +10,7 @@ abstract class BaseController
      * @var View
      */
     protected $view;
+    protected $router;
 
     public function __construct()
     {
@@ -24,7 +25,7 @@ abstract class BaseController
     /**
      * @return bool
      */
-    protected function access() : bool
+    protected function access(): bool
     {
         return true;
     }
@@ -32,11 +33,12 @@ abstract class BaseController
     /**
      * @return void|mixed
      */
-    public function dispatch() : void
+    public function dispatch(): void
     {
         if ($this->access()) {
             $this->action();
-        } else {
+        }
+        else {
             die('Доступ закрыт');
         }
     }
@@ -44,10 +46,14 @@ abstract class BaseController
     /**
      * @param string $uri
      */
-    protected static function redirect(string $uri) : void
+    protected static function redirect(string $uri): void
     {
         header('Location:' . $uri);
         return;
     }
 
+    public function setParam($param)
+    {
+        return $this;
+    }
 }

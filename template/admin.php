@@ -16,21 +16,21 @@ include_once __DIR__ . '/head.php';
     <?php if (!empty($articles)):
         foreach ($articles as $article):
             ?>
-        <section class="main-content">
-            <div class="row">
-                <div class="col-3 col-md-6 col-lg-8">
-                    <h3><?php echo $article->title; ?></h3>
-                    <p><?php echo $article->text; ?></p>
-                    <p><i>
-                            <?php echo ucfirst($article->author->first_name[1]) .
-                                '. ' .
-                                $article->author->last_name; ?>
-                        </i></p>
-                    <p align="left"><a href="edit.php?id=<?php echo $article->id; ?>">Редактировать</a>&nbsp&nbsp&nbsp&nbsp
-                        <a href="delete.php?id=<?php echo $article->id; ?>">Удалить</a>
+            <section class="main-content">
+                <div class="row">
+                    <div class="col-3 col-md-6 col-lg-8">
+                        <h3><?php echo $article->title; ?></h3>
+                        <p><?php echo $article->text; ?></p>
+                        <p><i>
+                                <?php echo ucfirst($article->author->first_name[1]) .
+                                    '. ' .
+                                    $article->author->last_name; ?>
+                            </i></p>
+                        <p align="left"><a href="edit.php?id=<?php echo $article->id; ?>">Редактировать</a>&nbsp&nbsp&nbsp&nbsp
+                            <a href="delete.php?id=<?php echo $article->id; ?>">Удалить</a>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
         <?php
         endforeach;
     else: ?>
