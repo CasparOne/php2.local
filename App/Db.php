@@ -20,7 +20,7 @@ class Db
         if (is_null($dbConfig)) {
             die('Failed to obtain right parameters'); // this is temporary solution
         }
-        $dsn = $dbConfig['engine'] . ':host=' . $dbConfig['host'] . ';dbname=' . $dbConfig['dbname'];
+        $dsn = $dbConfig['engine'] . ':host=' . $dbConfig['host'] . ';port=' . $dbConfig['port']  . ';dbname=' . $dbConfig['dbname'];
         $this->dbh = new \PDO($dsn, $dbConfig['username'], $dbConfig['password']);
     }
 

@@ -10,7 +10,7 @@ abstract class BaseController
      * @var View
      */
     protected $view;
-    protected $router;
+    protected $params;
 
     public function __construct()
     {
@@ -31,10 +31,11 @@ abstract class BaseController
     }
 
     /**
-     * @return void|mixed
+     * @param string $params
      */
-    public function dispatch(): void
+    public function dispatch($params = ''): void
     {
+        $this->params = $params ?? null;
         if ($this->access()) {
             $this->action();
         }
@@ -52,8 +53,4 @@ abstract class BaseController
         return;
     }
 
-    public function setParam($param)
-    {
-        return $this;
-    }
 }

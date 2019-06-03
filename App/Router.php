@@ -3,158 +3,116 @@
 
 namespace App;
 
-/**
- * Class Router
- * @package App
- */
+
 class Router
 {
-    /**
-     * @var array $routes
-     * @var array $params
-     */
-    protected $routes = [];
-    protected $params = [];
-    protected $curUri;
+    private $routes = [];
+    protected $uri;
 
-
-    /**
-     * Router constructor.
-     */
     public function __construct()
     {
-        $config = Config::getInstance();
-        $this->routes = $config->data['routes'];
-        $this->curUri = $_SERVER['REQUEST_URI'];
-    }
+        $this->url = $this->cleanUri();
+        $this->routes = $this->unWrapRoutes();
 
-    public function run()
-    {
-        $controllerClass = (new self());
-        $ctrl = $controllerClass->getClassName();
-        (new $ctrl)
-            ->setParam($this)
-            ->dispatch();
     }
-
-    public function getClassName()
-    {
-        if (!class_exists($this->findControllerName())) {
-            die('Class not found');
-        }
-        return $this->findControllerName();
-    }
-
 
     /**
+     * @param $route
+     * @param array $params
+     */
+    public function add($route, $params = [])
+    {
+        $this->routes = array_replace_recursive($this->routes, [$route => $params]);
+    }
+
+    /**
+     * The main function
+     */
+    public function run()
+    {
+        $param = $this->getRequestParams();
+        $controllerName = $this->getControllerName();
+        $controller = new $controllerName;
+        $controller->dispatch($param);
+    }
+
+    /**
+     * Returns Request parameter
+     * @return string
+     */
+    protected function getRequestParams()
+    {
+        $controller = $this->getControllerName();
+        $flippedRoutes = [];
+
+        foreach ($this->routes as $key => $value) {
+            $flippedRoutes[$value['controller']] = $key;
+        }
+        $route = $flippedRoutes[$controller];
+
+        preg_match_all('~(?:{.+})~', $route, $paramName);
+        foreach ($paramName as $key => $value) {
+            $paramName[$key] = str_replace(['{', '}'],['',''], $value[array_key_first($value)]);
+        }
+
+        $regExpr = '~' . $route . '~J';
+        foreach ($paramName as $paramNameValue) {
+            $regExpr = str_replace($paramNameValue, '(?P<' . $paramNameValue . '>.+)', $regExpr);
+            $regExpr = str_replace(['/', '{', '}'], ['\/', '',''], $regExpr);
+        }
+        preg_match_all($regExpr, $this->url, $paramValue);
+        return $paramValue;
+    }
+
+    /**
+     * Returns Controller class name
+     *
      * @return bool|int|string
      */
-    protected function findControllerName()
+    protected function getControllerName()
     {
-        $uri = $this->makePureUri($this->curUri);
-        $regExp = $this->getRegExpressions();
-        foreach ($regExp as $className => $rexExpession) {
-            if (1 === preg_match($rexExpession, $uri)) {
+        $regExpressions = [];
+        foreach ($this->routes as  $route => $params) {
+            $route = preg_replace('~\/$~','', $route);
+            $route = str_replace('/', '\/', $route );
+            $route = preg_replace('~\{.+\}~', '.+$', $route);
+            $regExpressions[$params['controller']] = '~^' . $route . '$~';
+        }
+
+        foreach ($regExpressions as $className => $regExpression) {
+            if (1 === preg_match($regExpression, $this->url)) {
                 return $className;
             }
         }
         return false;
+
     }
 
     /**
-     * @return null
-     */
-    public function getParameter()
-    {
-        $config = $this->routes;
-        $flipRoutes = array_flip($config);
-        $controller = $this->getClassName();
-        $route = $flipRoutes[$controller];
-
-        preg_match_all('#(?:{.+})#U', $route, $parameterNames);
-
-        foreach ($parameterNames as $key => $parameterName) {
-            $parameterNames[$key] = str_replace(['{', '}'], '', $parameterName);
-        }
-
-        $parameterNames = reset($parameterNames);
-
-        if (!isset($parameterNames)) {
-            return null;
-        }
-
-        $regExp = '#' . $route . '#J';
-
-        foreach ($parameterNames as $parameterName) {
-            $regExp = str_replace($parameterName, sprintf('(?P<%s>.+)', $parameterName), $regExp);
-        }
-        $regExp = preg_replace(['#^\/#', '#{#', '#}#',], ['/', '', '',], $regExp);
-
-        preg_match_all($regExp, $this->curUri, $parameterValues);
-
-        $result = null;
-        foreach ($parameterNames as $parameterName) {
-            if (isset($parameterValues[$parameterName])) {
-                $result[$parameterName] = reset($parameterValues[$parameterName]);
-            }
-        }
-
-        return $result;
-    }
-
-
-    /**
-     * Makes array of regular expressions from list of routes
-     * @return array|null
-     */
-    protected function getRegExpressions()
-    {
-        $regExpr = [];
-        foreach ($this->routes as $pattern => $className) {
-            $result = str_replace('/', '\/', $pattern);
-            $result = preg_replace('#{.+}#', '.+', $result);
-            if (isset($result)) {
-                $regExpr[$className] = '#^' . $result . '$#';
-            }
-        }
-        return $regExpr ?? null;
-    }
-
-    /**
-     * @param $url
+     * Truncated request string
+     *
      * @return string
      */
-    protected function makePureUri($url)
+    protected function cleanUri() : string
     {
-        if ($url != '') {
-            $parts = explode('&', $url, 2);
-        }
-
-        if (strpos($parts[0], '=') === false) {
-            $url = $parts[0];
-        }
-        else {
-            $url = '';
-        }
-        return $url;
+        $uri = $_SERVER['REQUEST_URI'];
+        return preg_replace('~\/*$~','', $uri);
     }
 
     /**
-     * @param string $string
-     * @return mixed
+     * Makes uri more readable and clearly
+     * @return array
      */
-    protected function toStudlyCaps(string $string)
+    protected function unWrapRoutes() : array
     {
-        return str_replace(' ', '', ucwords(str_replace('-', ' ', $string)));
-    }
-
-    /**
-     * @param string $string
-     * @return string
-     */
-    protected function toCamelCase(string $string)
-    {
-        return lcfirst($this->toStudlyCaps($string));
+        $routes = [];
+        foreach (Config::getInstance()->data['routes'] as $key => $value) {
+            $routes[$key] = [
+                'controller' => $value,
+                'action' => 'dispatch',
+            ];
+        }
+        return $routes;
     }
 
 }
