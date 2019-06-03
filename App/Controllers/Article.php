@@ -6,6 +6,10 @@ namespace App\Controllers;
 
 use App\BaseController;
 
+/**
+ * Class Article
+ * @package App\Controllers
+ */
 class Article extends BaseController
 {
     /**

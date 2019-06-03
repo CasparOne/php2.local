@@ -3,9 +3,16 @@
 
 namespace App;
 
-
+/**
+ * Class Router
+ * @package App
+ */
 class Router
 {
+    /**
+     * @var array $routes
+     * @var $uri
+     */
     private $routes = [];
     protected $uri;
 
@@ -13,7 +20,6 @@ class Router
     {
         $this->url = $this->cleanUri();
         $this->routes = $this->unWrapRoutes();
-
     }
 
     /**
@@ -32,7 +38,7 @@ class Router
     {
         $param = $this->getRequestParams();
         $controllerName = $this->getControllerName();
-        $controller = new $controllerName;
+        $controller = new $controllerName();
         $controller->dispatch($param);
     }
 
@@ -52,7 +58,7 @@ class Router
 
         preg_match_all('~(?:{.+})~', $route, $paramName);
         foreach ($paramName as $key => $value) {
-            $paramName[$key] = str_replace(['{', '}'],['',''], $value[array_key_first($value)]);
+            $paramName[$key] = str_replace(['{', '}'], ['', ''], $value[array_key_first($value)]);
         }
 
         $regExpr = '~' . $route . '~J';
@@ -72,9 +78,9 @@ class Router
     protected function getControllerName()
     {
         $regExpressions = [];
-        foreach ($this->routes as  $route => $params) {
-            $route = preg_replace('~\/$~','', $route);
-            $route = str_replace('/', '\/', $route );
+        foreach ($this->routes as $route => $params) {
+            $route = preg_replace('~\/$~', '', $route);
+            $route = str_replace('/', '\/', $route);
             $route = preg_replace('~\{.+\}~', '.+$', $route);
             $regExpressions[$params['controller']] = '~^' . $route . '$~';
         }
@@ -85,7 +91,6 @@ class Router
             }
         }
         return false;
-
     }
 
     /**
@@ -96,7 +101,7 @@ class Router
     protected function cleanUri() : string
     {
         $uri = $_SERVER['REQUEST_URI'];
-        return preg_replace('~\/*$~','', $uri);
+        return preg_replace('~\/*$~', '', $uri);
     }
 
     /**
@@ -114,5 +119,4 @@ class Router
         }
         return $routes;
     }
-
 }

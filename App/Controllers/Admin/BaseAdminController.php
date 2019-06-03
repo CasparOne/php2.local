@@ -10,6 +10,9 @@ use App\BaseController;
  */
 abstract class BaseAdminController extends BaseController
 {
+    /**
+     * @var string
+     */
     protected $redirectUri = '/admin';
 
     /**

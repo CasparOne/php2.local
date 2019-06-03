@@ -24,7 +24,6 @@ class Update extends BaseAdminController
         $article->title = $_POST['title'];
         $article->text = $_POST['text'];
         $article->author = $_POST['author'];
-
         $article->save();
     }
 }

@@ -78,7 +78,6 @@ abstract class Model
             return true;
         }
         return false;
-
     }
 
     /**
@@ -106,7 +105,6 @@ abstract class Model
 
         $db = new Db();
         return $db->execute($sql, $data);
-
     }
 
     /**
@@ -118,7 +116,6 @@ abstract class Model
             return $this->update();
         }
         return $this->insert();
-
     }
 
     /**
@@ -131,6 +128,4 @@ abstract class Model
 
         return $db->execute($sql, [':id' => $this->id]);
     }
-
 }
-

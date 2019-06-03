@@ -3,7 +3,10 @@
 
 namespace App;
 
-
+/**
+ * Class BaseController
+ * @package App
+ */
 abstract class BaseController
 {
     /**

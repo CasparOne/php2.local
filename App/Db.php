@@ -2,7 +2,10 @@
 
 namespace App;
 
-
+/**
+ * Class Db
+ * @package App
+ */
 class Db
 {
     /**

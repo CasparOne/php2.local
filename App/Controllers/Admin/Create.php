@@ -22,5 +22,4 @@ class Create extends BaseAdminController
         }
         return false;
     }
-
 }

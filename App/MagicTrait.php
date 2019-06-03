@@ -3,7 +3,10 @@
 
 namespace App;
 
-
+/**
+ * Trait MagicTrait
+ * @package App
+ */
 trait MagicTrait
 {
     /**
@@ -17,7 +20,7 @@ trait MagicTrait
 
     /**
      * @param $name
-     * @return |null
+     * @return mixed|null
      */
     public function __get($name)
     {

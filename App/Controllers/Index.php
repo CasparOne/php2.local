@@ -8,9 +8,15 @@ use App\BaseController;
 use App\Models\Article;
 use App\View;
 
+/**
+ * Class Index
+ * @package App\Controllers
+ */
 class Index extends BaseController
 {
-
+    /**
+     * @return mixed|void
+     */
     protected function action()
     {
         $this->view = new View();

@@ -3,7 +3,10 @@
 
 namespace App;
 
-
+/**
+ * Class Config
+ * @package App
+ */
 class Config
 {
     /**
@@ -28,7 +31,6 @@ class Config
         else {
             die('Config file is wrong or corrupt');
         }
-
     }
 
     /**
