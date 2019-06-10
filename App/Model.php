@@ -59,7 +59,7 @@ abstract class Model
         $data = [];
 
         foreach ($fields as $name => $value) {
-            if (in_array($name, ['id','created']) ) {
+            if (in_array($name, ['id',]) ) {
                 continue;
             }
             $cols[] = $name;
@@ -95,18 +95,22 @@ abstract class Model
         $data = [];
 
         foreach ($fields as $name => $value) {
-            if (in_array($name, ['id', 'created'])) {
+            // Убрал дату создания по требованию А. Степанцева
+            // однако, да, по моей задумке дату создания штатными средствами редактировать нельзя.
+            // поле дата создания содается автоматически средствами СУБД.
+            if (in_array($name, ['id',])) {
                 continue;
             }
             $data[':' . $name] = $value;
-            $data[':id'] = $this->id;
             $cols[] = $name . '=:' . $name;
         }
+
+        $data[':id'] = $this->id;
         $sql = 'UPDATE ' . static::$table . ' SET ' . implode(', ', $cols) . ' WHERE id=:id';
-
         $db = new Db();
-        return $db->execute($sql, $data);
+        $result = $db->execute($sql, $data);
 
+        return $result;
     }
 
     /**

@@ -4,7 +4,7 @@ return [
         'engine' => 'mysql',
         'host' => 'localhost',
         'dbname' => 'test',
-        'charset' => 'utf8',
+        'charset' => 'utf8mb4',
         'username' => 'root',
         'password' =>'',
         'options' => '',

@@ -12,25 +12,9 @@ use App\Model;
  */
 class Article extends Model
 {
-    /**
-     * @var string
-     */
     protected static $table = 'article';
-    /**
-     * @var $title
-     */
     public $title;
-    /**
-     * @var $text
-     */
     public $text;
-    /**
-     * @var $author
-     */
-    public $author;
-    /**
-     * @var $created
-     */
     public $created;
 
     /**
